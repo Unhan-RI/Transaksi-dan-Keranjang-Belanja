@@ -20,6 +20,15 @@ class CustomJSONEncoder(json.JSONEncoder):
             return obj.isoformat()
         return super().default(obj)
 # Fungsi untuk koneksi ke database
+app.secret_key = 'your_secret_key'
+
+# Konfigurasi database MySQL
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE'] = 'shopping_cart_db'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
+
+# Fungsi untuk koneksi ke database
 def get_db_connection():
     connection = mysql.connector.connect(
         host=app.config['MYSQL_HOST'],
