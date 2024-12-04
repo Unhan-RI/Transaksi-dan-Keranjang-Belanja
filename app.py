@@ -91,9 +91,20 @@ def add_to_cart(product_id):
         item = next((i for i in cart if i['id'] == product_id), None)
 
         if item:
-            item['quantity'] += 1  # Update quantity jika produk sudah ada di keranjang
-        else:
-            cart.append({'id': product_id, 'name': product['name'], 'price': product['price'], 'quantity': 1})
+        item['quantity'] = new_quantity
+        session['cart'] = cart
+    return redirect(url_for('index'))
+
+# Route untuk menghapus produk dari keranjang
+@app.route('/remove_from_cart/<int:product_id>', methods=['POST'])
+def remove_from_cart(product_id):
+    cart = session.get('cart', [])
+    cart = [item for item in cart if item['id'] != product_id]
+
+    session['cart'] = cart
+    return redirect(url_for('index'))
+
+
 
         session['cart'] = cart
     return redirect(url_for('index'))
