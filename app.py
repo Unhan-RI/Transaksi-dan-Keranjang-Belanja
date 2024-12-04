@@ -65,10 +65,24 @@ CORS(app, resources={
 # Route untuk halaman utama
 @app.route('/')
 def index():
-    # Mengambil produk dari API
-    product_api = ProductAPI(server_ip='192.168.0.110', api_key='44c64a2dd91188892dc7a07bf7d671025be04747f9c3fcac28b1c0f7894a8321')
-    products = product_api.get_products()
+   # API untuk mengambil produk
+class ProductAPI:
+    def init(self, server_ip, api_key):
+        self.base_url = f'http://{server_ip}:5000'
+        self.headers = {
+            'Content-Type': 'application/json',
+            'X-API-Key': api_key
+        }
 
+    def get_products(self):
+        try:
+            response = requests.get(
+                f'{self.base_url}/api/products',
+                headers=self.headers
+            )
+            return response.json() if response.status_code == 200 else {'error': 'Unable to fetch products'}
+        except requests.exceptions.RequestException as e:
+            return {'error': f'Connection error: {str(e)}'}
     # Mengambil data keranjang dari session
     cart = session.get('cart', [])
     total_price = sum(item['price'] * item['quantity'] for item in cart)
