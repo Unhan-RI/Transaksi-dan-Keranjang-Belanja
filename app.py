@@ -115,16 +115,22 @@ app.config['MYSQL_DATABASE'] = 'shopping_cart_db'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 
-# Fungsi untuk koneksi ke database
-def get_db_connection():
-    connection = mysql.connector.connect(
-        host=app.config['MYSQL_HOST'],
-        database=app.config['MYSQL_DATABASE'],
-        user=app.config['MYSQL_USER'],
-        password=app.config['MYSQL_PASSWORD']
-    )
-    return connection
-
+@app.route('/api/transactions', methods=['GET'])
+def api_get_transactions():
+    # Koneksi ke database
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    
+    # Menjalankan query untuk mengambil semua transaksi
+    cursor.execute("SELECT * FROM transactions")
+    transactions = cursor.fetchall()
+    
+    # Menutup koneksi
+    cursor.close()
+    connection.close()
+    
+    # Mengembalikan data transaksi dalam format JSON
+    return jsonify(transactions)
 
 # Route untuk menghapus produk dari keranjang
 @app.route('/remove_from_cart/<int:product_id>', methods=['POST'])
@@ -156,7 +162,6 @@ def add_to_cart(product_id):
         item = next((i for i in cart if i['id'] == product_id), None)
 
 
-aku
 # Route untuk menghapus produk dari keranjang
 @app.route('/remove_from_cart/<int:product_id>', methods=['POST'])
 def remove_from_cart(product_id):
@@ -186,8 +191,6 @@ def add_to_cart(product_id):
         cart = session.get('cart', [])
         item = next((i for i in cart if i['id'] == product_id), None)
 
-
-aku
 
 if name == 'main':
     app.run(host='0.0.0.0', port=5000, debug=True)
