@@ -83,15 +83,24 @@ def add_to_cart(product_id):
 
     product = next((p for p in products.get('products', []) if p['id'] == product_id), None)
     
-    if product:
-        # Ambil keranjang dari session
-        cart = session.get('cart', [])
-        item = next((i for i in cart if i['id'] == product_id), None)
+app.secret_key = 'your_secret_key'
 
-        if item:
-        item['quantity'] = new_quantity
-        session['cart'] = cart
-    return redirect(url_for('index'))
+# Konfigurasi database MySQL
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE'] = 'shopping_cart_db'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
+
+# Fungsi untuk koneksi ke database
+def get_db_connection():
+    connection = mysql.connector.connect(
+        host=app.config['MYSQL_HOST'],
+        database=app.config['MYSQL_DATABASE'],
+        user=app.config['MYSQL_USER'],
+        password=app.config['MYSQL_PASSWORD']
+    )
+    return connection
+
 
 # Route untuk menghapus produk dari keranjang
 @app.route('/remove_from_cart/<int:product_id>', methods=['POST'])
