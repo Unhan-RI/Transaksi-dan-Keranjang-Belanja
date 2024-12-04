@@ -29,21 +29,26 @@ def get_db_connection():
     )
     return connection
 
-# API untuk mengambil produk
-class ProductAPI:
-    def init(self, server_ip, api_key):
-        self.base_url = f'http://{server_ip}:5000'
-        self.headers = {
-            'Content-Type': 'application/json',
-            'X-API-Key': api_key
-        }
+class CustomJSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Decimal):
+            return float(obj)
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        return super().default(obj)
 
-    def get_products(self):
-        try:
-            response = requests.get(
-                f'{self.base_url}/api/products',
-                headers=self.headers
-            )
+
+
+app = Flask(name)
+app.json_encoder = CustomJSONEncoder
+CORS(app, resources={
+    r"/*": {
+        "origins": "*",
+        "methods": ["GET", "POST", "PUT", "DELETE"],
+        "allow_headers": ["Content-Type", "X-API-Key"]
+    }
+})
+
             return response.json() if response.status_code == 200 else {'error': 'Unable to fetch products'}
         except requests.exceptions.RequestException as e:
             return {'error': f'Connection error: {str(e)}'}
