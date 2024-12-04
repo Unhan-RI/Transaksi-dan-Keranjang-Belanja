@@ -106,5 +106,3 @@ def remove_from_cart(product_id):
     cart = session.get('cart', [])
     cart = [item for item in cart if item['id'] != product_id]
 
-    session['cart'] = cart
-    return redirect(url_for('index'))
