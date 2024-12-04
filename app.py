@@ -8,13 +8,6 @@ import secrets
 from functools import wraps
 from werkzeug.exceptions import BadRequest
 
-class CustomJSONEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, Decimal):
-            return float(obj)
-        if isinstance(obj, datetime):
-            return obj.isoformat()
-        return super().default(obj)
 
 # Konfigurasi database MySQL
 app.config['MYSQL_HOST'] = 'localhost'
