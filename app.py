@@ -132,6 +132,23 @@ def api_get_transactions():
     # Mengembalikan data transaksi dalam format JSON
     return jsonify(transactions)
 
+# Route untuk halaman Checkout
+@app.route('/checkout', methods=['GET', 'POST'])
+def checkout():
+    if request.method == 'POST':
+        cart = session.get('cart', [])
+        total_price = sum(item['price'] * item['quantity'] for item in cart)
+
+        # Kirim data ke API checkout untuk menyimpan transaksi
+        response = requests.post('http://localhost:5000/api/checkout', json={'total_price': total_price})
+        
+        if response.status_code == 201:
+            session['cart'] = []  # Bersihkan keranjang setelah checkout berhasil
+            return redirect(url_for('index'))  # Redirect kembali ke halaman utama setelah transaksi berhasil
+        else:
+            return jsonify({'error': 'Checkout failed'}), 500
+
+    return render_template('index.html')
 # Route untuk menghapus produk dari keranjang
 @app.route('/remove_from_cart/<int:product_id>', methods=['POST'])
 def remove_from_cart(product_id):
