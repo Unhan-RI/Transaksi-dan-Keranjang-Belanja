@@ -4,10 +4,10 @@
 Proyek ini adalah aplikasi web sederhana yang berfungsi sebagai simulasi keranjang belanja. Aplikasi ini memungkinkan pengguna untuk menambahkan, menghapus, dan melihat item dalam keranjang mereka serta menghitung total belanja secara dinamis. Proyek ini dikembangkan dengan pendekatan kolaboratif menggunakan Python dan Flask sebagai backend serta HTML dan CSS untuk frontend.
 
 ## Teknologi yang Digunakan
-- **Python 3.8+**: Bahasa pemrograman utama untuk backend.
+- **Python**: Bahasa pemrograman utama untuk backend.
 - **Flask**: Framework web minimalis untuk menangani logika server.
-- **HTML5 & CSS3**: Untuk tampilan frontend yang responsif.
-- **Bootstrap (opsional)**: Untuk gaya antarmuka yang lebih baik.
+- **HTML & CSS**: Untuk tampilan frontend yang responsif.
+- **Bootstrap**: Untuk gaya antarmuka yang lebih baik.
 - **JavaScript**: Untuk fitur dinamis seperti perhitungan total.
 
 ## Fitur Utama
@@ -18,7 +18,7 @@ Proyek ini adalah aplikasi web sederhana yang berfungsi sebagai simulasi keranja
 5. **Desain Responsif**: Aplikasi dapat diakses dengan baik di berbagai perangkat, termasuk desktop dan mobile.
 
 ## Instalasi
-Ikuti langkah-langkah berikut untuk menjalankan aplikasi di lingkungan lokal Anda:
+Ikuti langkah-langkah berikut untuk menjalankan aplikasi di lingkungan lokal:
 
 1. **Clone repositori ini**:
    ```bash
