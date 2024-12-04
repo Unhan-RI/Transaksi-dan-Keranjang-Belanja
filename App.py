@@ -116,6 +116,18 @@ def update_quantity(product_id):
 # Route untuk menghapus produk dari keranjang
 @app.route('/remove_from_cart/<int:product_id>', methods=['POST'])
 def remove_from_cart(product_id):
+    cart = session.get('cart', [])
+    cart = [item for item in cart if item['id'] != product_id]
+
+    session['cart'] = cart
+    return redirect(url_for('index'))
+
+
+jere
+
+# Route untuk menghapus produk dari keranjang
+@app.route('/remove_from_cart/<int:product_id>', methods=['POST'])
+def remove_from_cart(product_id):
     # Ambil keranjang dari session
     cart = session.get('cart', [])
     cart = [item for item in cart if item['id'] != product_id]
