@@ -123,7 +123,7 @@ def remove_from_cart(product_id):
     return redirect(url_for('index'))
 
 
-jere
+
 
 # Route untuk menghapus produk dari keranjang
 @app.route('/remove_from_cart/<int:product_id>', methods=['POST'])
@@ -131,4 +131,18 @@ def remove_from_cart(product_id):
     # Ambil keranjang dari session
     cart = session.get('cart', [])
     cart = [item for item in cart if item['id'] != product_id]
+# Membuat response JSON yang menunjukkan status transaksi
+    return jsonify({
+        'message': 'Transaction successful',
+        'transaction': {
+            'total_price': total_price,
+            'status': 'completed'
+        }
+    }), 201
+
+if name == 'main':
+    app.run(host='0.0.0.0', port=5000, debug=True)
+
+
+
 
