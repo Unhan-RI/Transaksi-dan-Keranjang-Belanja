@@ -117,21 +117,22 @@ def remove_from_cart(product_id):
     return redirect(url_for('index'))
 
 # Route untuk mengupdate jumlah produk dalam keranjang
-@app.route('/update_quantity/<int:product_id>', methods=['POST'])
-def update_quantity(product_id):
-    new_quantity = int(request.form['quantity'])
-    if new_quantity < 1:
-        return redirect(url_for('index'))
-    
-    # Ambil keranjang dari session
-    cart = session.get('cart', [])
-    item = next((i for i in cart if i['id'] == product_id), None)
+return render_template('index.html', products=products.get('products', []), cart=cart, total_price=total_price, transactions=transactions)
 
-    if item:
-        item['quantity'] = new_quantity
-        session['cart'] = cart
-    return redirect(url_for('index'))
+# Route untuk menambah produk ke keranjang
+@app.route('/add_to_cart/<int:product_id>', methods=['POST'])
+def add_to_cart(product_id):
+    product_api = ProductAPI(server_ip='192.168.0.110', api_key='44c64a2dd91188892dc7a07bf7d671025be04747f9c3fcac28b1c0f7894a8321')
+    products = product_api.get_products()
 
+    product = next((p for p in products.get('products', []) if p['id'] == product_id), None)
+
+    if product:
+        cart = session.get('cart', [])
+        item = next((i for i in cart if i['id'] == product_id), None)
+
+
+aku
 # Route untuk menghapus produk dari keranjang
 @app.route('/remove_from_cart/<int:product_id>', methods=['POST'])
 def remove_from_cart(product_id):
@@ -146,6 +147,23 @@ def remove_from_cart(product_id):
             'status': 'completed'
         }
     }), 201
+
+return render_template('index.html', products=products.get('products', []), cart=cart, total_price=total_price, transactions=transactions)
+
+# Route untuk menambah produk ke keranjang
+@app.route('/add_to_cart/<int:product_id>', methods=['POST'])
+def add_to_cart(product_id):
+    product_api = ProductAPI(server_ip='192.168.0.110', api_key='44c64a2dd91188892dc7a07bf7d671025be04747f9c3fcac28b1c0f7894a8321')
+    products = product_api.get_products()
+
+    product = next((p for p in products.get('products', []) if p['id'] == product_id), None)
+
+    if product:
+        cart = session.get('cart', [])
+        item = next((i for i in cart if i['id'] == product_id), None)
+
+
+aku
 
 if name == 'main':
     app.run(host='0.0.0.0', port=5000, debug=True)
