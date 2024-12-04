@@ -7,10 +7,6 @@ import logging
 import secrets
 from functools import wraps
 from werkzeug.exceptions import BadRequest
-import os
-from dotenv import load_dotenv
-from flask_cors import CORS
-from datetime import datetime
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
