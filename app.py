@@ -58,6 +58,7 @@ CORS(app, resources={
     }
 })
 
+
             return response.json() if response.status_code == 200 else {'error': 'Unable to fetch products'}
         except requests.exceptions.RequestException as e:
             return {'error': f'Connection error: {str(e)}'}
