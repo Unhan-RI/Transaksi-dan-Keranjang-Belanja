@@ -1,10 +1,24 @@
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session
 import mysql.connector
-from flask import Flask, render_template, request, redirect, url_for, flash, session
 import requests
+import json
+from flask_cors import CORS
+import logging
+import secrets
+from functools import wraps
+from werkzeug.exceptions import BadRequest
+import os
+from dotenv import load_dotenv
+from flask_cors import CORS
+from datetime import datetime
 
-app = Flask(name)
-app.secret_key = 'your_secret_key'
-
+class CustomJSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Decimal):
+            return float(obj)
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        return super().default(obj)
 # Konfigurasi database MySQL
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE'] = 'shopping_cart_db'
