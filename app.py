@@ -7,14 +7,18 @@ import logging
 import secrets
 from functools import wraps
 from werkzeug.exceptions import BadRequest
+import os
+from dotenv import load_dotenv
+from flask_cors import CORS
+from datetime import datetime
 
-
-# Konfigurasi database MySQL
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_DATABASE'] = 'shopping_cart_db'
-app.config['MYSQL_USER'] = 'root'  # Username MySQL, biasanya 'root' jika menggunakan XAMPP
-app.config['MYSQL_PASSWORD'] = ''  # Password MySQL, kosongkan jika tidak ada
-
+class CustomJSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Decimal):
+            return float(obj)
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        return super().default(obj)
 # Fungsi untuk koneksi ke database
 def get_db_connection():
     connection = mysql.connector.connect(
